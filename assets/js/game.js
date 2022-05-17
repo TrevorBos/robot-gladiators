@@ -29,14 +29,16 @@ var fight = function (enemyName) {
       if (confirmSkip) {
         window.alert(playerName + " has decided to skip this fight. Goodbye!");
         // subtract money from playerMoney for skipping
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10);
         console.log("playerMoney", playerMoney);
         break;
       }
     }
 
     // remove enemy's health by subtracting the amount set in the playerAttack variable
-    enemyHealth = enemyHealth - playerAttack;
+    var damage = randomNumber (playerAttack - 3, playerAttack);
+
+    enemyHealth = Math.max(0, enemyHealth - damage);
     console.log(
       playerName +
         " attacked " +
@@ -61,7 +63,8 @@ var fight = function (enemyName) {
     }
 
     // remove players's health by subtracting the amount set in the enemyAttack variable
-    playerHealth = playerHealth - enemyAttack;
+    var damage = randomNumber(enemyAttack - 3, enemyAttack);
+    playerHealth = Math.max(0, playerHealth - damage)
     console.log(
       enemyName +
         " attacked " +
@@ -99,7 +102,7 @@ var startGame = function () {
       // picks a new enemy of them to fight based off the index of the enemyNames array
       var pickedEnemyName = enemyNames[i];
       //starts the enemy health at 50
-      enemyHealth = 50;
+      enemyHealth = randomNumber(40, 60);
       //initiates the fight with the chosen array enemy
       fight(pickedEnemyName);
       //if were not at the last enemy in the array
@@ -155,7 +158,7 @@ var shop = function () {
   );
   //Use a switch to carry out the action
   switch (shopOptionPrompt) {
-    case "REFILL":
+    case "REFILL": //New case
     case "refill":
       if (playerMoney >= 7) {
         window.alert("Refilling player's health by 20 for 7 dollars!");
@@ -168,8 +171,8 @@ var shop = function () {
       }
 
       break;
-    
-    case "UPGRADE":
+
+    case "UPGRADE": //New case
     case "upgrade":
       if (playerMoney >= 7) {
         window.alert("Upgrading players attack by 6 for 7 dollars!");
@@ -183,10 +186,9 @@ var shop = function () {
 
       break;
 
-    case "LEAVE":
+    case "LEAVE": //New case
     case "leave":
       window.alert("Leaving the store!");
-
       //do nothing so the function will end
       break;
 
@@ -197,6 +199,15 @@ var shop = function () {
       break;
   }
 };
+
+//function to make a random number
+
+var randomNumber = function (min, max) {
+
+  var value = Math.floor (Math.random() * (max - min + 1) + min);
+  return value;
+
+}
 
 // This will start the game when the page loads by initializing the above startGame() function
 startGame();
